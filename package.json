@@ -1,7 +1,7 @@
 {
 	"name": "team-snippets",
 	"displayName": "Team Snippets",
-	"description": "Keep your team up to date by storing snippets in any git repo.",
+	"description": "Keep your snippets up to date for your entire team across projects.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.50.0"

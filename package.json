@@ -10,14 +10,24 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:team-snippets.helloWorld"
+		"onCommand:team-snippets.addSnippetFile",
+		"onCommand:team-snippets.updateAllSnippetFiles",
+		"onCommand:team-snippets.deleteSnippetFile"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "team-snippets.helloWorld",
-				"title": "Hello World"
+				"command": "team-snippets.addSnippetFile",
+				"title": "Team Snippets: Add a snippet file"
+			},
+			{
+				"command": "team-snippets.updateAllSnippetFiles",
+				"title": "Team Snippets: Update all snippet files"
+			},
+			{
+				"command": "team-snippets.deleteSnippetFile",
+				"title": "Team Snippets: Delete a snippet file"
 			}
 		]
 	},

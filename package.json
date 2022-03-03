@@ -10,7 +10,6 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:snippet-sync-vscode.addSnippetFile",
 		"onCommand:snippet-sync-vscode.updateAllSnippetFiles"
 	],
 	"main": "./out/extension.js",
@@ -35,10 +34,6 @@
 			}
 		},
 		"commands": [
-			{
-				"command": "snippet-sync-vscode.addSnippetFile",
-				"title": "Snippet Sync: Add a snippet file"
-			},
 			{
 				"command": "snippet-sync-vscode.updateAllSnippetFiles",
 				"title": "Snippet Sync: Update all snippet files"

@@ -16,6 +16,25 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration": {
+			"title": "Snippet Sync",
+			"properties": {
+				"snippetSync.snippetFiles": {
+					"type": "array",
+					"description": "URLs of snippet files to sync.",
+					"items": {
+						"type": "string"
+					}
+				},
+				"snippetSync.timeBetweenUpdates": {
+					"type": "number",
+					"default": 60,
+					"description": "Time between automatic updates in minutes. To disable, set to 0.",
+					"minimum": 0,
+					"maximum": 1440
+				}
+			}
+		},
 		"commands": [
 			{
 				"command": "snippet-sync-vscode.addSnippetFile",

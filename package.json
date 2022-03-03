@@ -11,8 +11,7 @@
 	],
 	"activationEvents": [
 		"onCommand:snippet-sync-vscode.addSnippetFile",
-		"onCommand:snippet-sync-vscode.updateAllSnippetFiles",
-		"onCommand:snippet-sync-vscode.deleteSnippetFile"
+		"onCommand:snippet-sync-vscode.updateAllSnippetFiles"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -21,7 +20,7 @@
 			"properties": {
 				"snippetSync.snippetFiles": {
 					"type": "array",
-					"description": "URLs of snippet files to sync.",
+					"description": "URLs of snippet files to sync. If you remove a URL from the list, the local file will be deleted at the next update.",
 					"items": {
 						"type": "string"
 					}
@@ -43,10 +42,6 @@
 			{
 				"command": "snippet-sync-vscode.updateAllSnippetFiles",
 				"title": "Snippet Sync: Update all snippet files"
-			},
-			{
-				"command": "snippet-sync-vscode.deleteSnippetFile",
-				"title": "Snippet Sync: Delete a snippet file"
 			}
 		]
 	},

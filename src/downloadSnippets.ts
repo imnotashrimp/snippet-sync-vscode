@@ -10,7 +10,8 @@ type HttpResult = {
   status: 'success' | 'fail',
   data?: object,
   reason?: string,
-  error?: any
+  error?: any,
+  url: string
 };
 
 /**
@@ -20,13 +21,11 @@ type HttpResult = {
  */
 export const downloadSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<void> => {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
-  let statuses: object[] = [];
   let allStatuses: HttpResult[] = [];
   let successStatuses: HttpResult[] = [];
 
   for (const fileUrl of fileUrls) {
     const response = await fetchFile(fileUrl);
-    statuses.push(response);
     allStatuses.push(response);
     if (response.status === 'success') {
       successStatuses.push(response);
@@ -43,15 +42,15 @@ const fetchFile = async (url: string): Promise<HttpResult> => {
     console.log(`Response received for ${url}:`, {response});
 
     if (!response?.data) {
-      return { status: 'fail', reason: 'no_data_in_response' };
+      return { status: 'fail', reason: 'no_data_in_response', url };
     }
 
     if (typeof response.data !== 'object') {
-      return { status: 'fail', reason: 'data_not_object' };
+      return { status: 'fail', reason: 'data_not_object', url };
     }
 
-    return { status: 'success', data: response.data };
+    return { status: 'success', data: response.data, url };
   } catch (error) {
-    return { status: 'fail', reason: 'error', error };
+    return { status: 'fail', reason: 'error', error, url };
   }
 };

@@ -35,6 +35,8 @@ export const downloadSnippets = async (localSnippetsDir: string, fileUrls: strin
   let allStatuses: Array<HttpSuccessResult|HttpFailResult|HttpErrorResult> = [];
   let successStatuses: Array<HttpSuccessResult|HttpFailResult|HttpErrorResult> = [];
 
+  // Using `for` instead of fileUrls.forEach() because `for` blocks execution
+  // until the loops are finished
   for (const fileUrl of fileUrls) {
     const response = await fetchFile(fileUrl);
     allStatuses.push(response);
@@ -45,6 +47,11 @@ export const downloadSnippets = async (localSnippetsDir: string, fileUrls: strin
   console.log('Statuses for retrieved files:', {allStatuses, successStatuses});
 };
 
+/**
+ * @function fetchFile
+ * @param url {string} URL of the file to download
+ * @returns result {Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult>}
+ */
 const fetchFile = async (url: string): Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult> => {
   console.log(`fetchFile() called for ${url}`);
 

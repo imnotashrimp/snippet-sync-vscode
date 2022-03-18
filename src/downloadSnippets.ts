@@ -21,13 +21,18 @@ type HttpResult = {
 export const downloadSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<void> => {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
   let statuses: object[] = [];
+  let allStatuses: HttpResult[] = [];
+  let successStatuses: HttpResult[] = [];
 
   for (const fileUrl of fileUrls) {
     const response = await fetchFile(fileUrl);
     statuses.push(response);
+    allStatuses.push(response);
+    if (response.status === 'success') {
+      successStatuses.push(response);
+    }
   }
-
-  console.log('Statuses for retrieved files:', statuses);
+  console.log('Statuses for retrieved files:', {allStatuses, successStatuses});
 };
 
 const fetchFile = async (url: string): Promise<HttpResult> => {

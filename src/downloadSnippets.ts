@@ -6,7 +6,7 @@ import {AxiosHttpResponse, AllHttpResults, HttpSuccessResult, HttpFailResult, Ht
  * @param localSnippetsDir {string} Path to the local snippets directory
  * @param fileUrls {string[]} List of URLs of snippet JSON files to download
  */
-export const downloadSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<void> => {
+export const downloadSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<AllHttpResults> => {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
   let results: AllHttpResults = {
     successes: [],
@@ -29,6 +29,8 @@ export const downloadSnippets = async (localSnippetsDir: string, fileUrls: strin
   };
 
   console.log('Results for retrieved files:', results);
+
+  return results;
 };
 
 /**

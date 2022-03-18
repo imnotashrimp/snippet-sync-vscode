@@ -6,11 +6,22 @@ type AxiosHttpResponse = {
     data: any
 };
 
-type HttpResult = {
-  status: 'success' | 'fail',
-  data?: object,
-  reason?: string,
-  error?: any,
+type HttpSuccessResult = {
+  status: 'success',
+  data: object,
+  url: string
+};
+
+type HttpFailResult = {
+  status: 'fail',
+  reason: 'no_data_in_response' | 'data_type_not_object',
+  url: string
+};
+
+type HttpErrorResult = {
+  status: 'fail',
+  reason: 'error',
+  error: any,
   url: string
 };
 
@@ -21,8 +32,8 @@ type HttpResult = {
  */
 export const downloadSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<void> => {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
-  let allStatuses: HttpResult[] = [];
-  let successStatuses: HttpResult[] = [];
+  let allStatuses: Array<HttpSuccessResult|HttpFailResult|HttpErrorResult> = [];
+  let successStatuses: Array<HttpSuccessResult|HttpFailResult|HttpErrorResult> = [];
 
   for (const fileUrl of fileUrls) {
     const response = await fetchFile(fileUrl);
@@ -34,7 +45,7 @@ export const downloadSnippets = async (localSnippetsDir: string, fileUrls: strin
   console.log('Statuses for retrieved files:', {allStatuses, successStatuses});
 };
 
-const fetchFile = async (url: string): Promise<HttpResult> => {
+const fetchFile = async (url: string): Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult> => {
   console.log(`fetchFile() called for ${url}`);
 
   try {
@@ -46,7 +57,7 @@ const fetchFile = async (url: string): Promise<HttpResult> => {
     }
 
     if (typeof response.data !== 'object') {
-      return { status: 'fail', reason: 'data_not_object', url };
+      return { status: 'fail', reason: 'data_type_not_object', url };
     }
 
     return { status: 'success', data: response.data, url };

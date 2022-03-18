@@ -1,5 +1,6 @@
 const axios = require('axios');
 import {AxiosHttpResponse, AllHttpResults, HttpSuccessResult, HttpFailResult, HttpErrorResult} from './types';
+import {convertUrlToFilename, convertFilenameToUrl} from './convertUrlToFilename';
 
 /**
  * @function downloadSnippets
@@ -40,6 +41,7 @@ export const downloadSnippets = async (localSnippetsDir: string, fileUrls: strin
  */
 const fetchFile = async (url: string): Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult> => {
   console.log(`fetchFile() called for ${url}`);
+  const targetSnippetFilename = convertUrlToFilename(url);
 
   try {
     const response: AxiosHttpResponse = await axios.get(url);
@@ -53,7 +55,7 @@ const fetchFile = async (url: string): Promise<HttpSuccessResult|HttpFailResult|
       return { status: 'fail', reason: 'data_type_not_object', url };
     }
 
-    return { status: 'success', data: response.data, url };
+    return { status: 'success', data: response.data, url, targetSnippetFilename };
   } catch (error) {
     return { status: 'fail', reason: 'error', error, url };
   }

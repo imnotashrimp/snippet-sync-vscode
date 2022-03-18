@@ -12,7 +12,8 @@ export type AllHttpResults = {
 export type HttpSuccessResult = {
   status: 'success',
   data: object,
-  url: string
+  url: string,
+  targetSnippetFilename: string
 };
 
 export type HttpFailResult = {

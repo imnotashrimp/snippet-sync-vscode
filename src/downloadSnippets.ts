@@ -1,5 +1,5 @@
 const axios = require('axios');
-import {AxiosHttpResponse, HttpSuccessResult, HttpFailResult, HttpErrorResult} from './types';
+import {AxiosHttpResponse, AllHttpResults, HttpSuccessResult, HttpFailResult, HttpErrorResult} from './types';
 
 /**
  * @function downloadSnippets
@@ -8,19 +8,27 @@ import {AxiosHttpResponse, HttpSuccessResult, HttpFailResult, HttpErrorResult} f
  */
 export const downloadSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<void> => {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
-  let allStatuses: Array<HttpSuccessResult|HttpFailResult|HttpErrorResult> = [];
-  let successStatuses: Array<HttpSuccessResult|HttpFailResult|HttpErrorResult> = [];
+  let results: AllHttpResults = {
+    successes: [],
+    fails: []
+  };
 
   // Using `for` instead of fileUrls.forEach() because `for` blocks execution
   // until the loops are finished
   for (const fileUrl of fileUrls) {
     const response = await fetchFile(fileUrl);
-    allStatuses.push(response);
-    if (response.status === 'success') {
-      successStatuses.push(response);
+
+    switch (response.status) {
+      case 'success':
+        results.successes.push(response);
+        break;
+      default: // 'fail'
+        results.fails.push(response);
+        break;
     }
-  }
-  console.log('Statuses for retrieved files:', {allStatuses, successStatuses});
+  };
+
+  console.log('Results for retrieved files:', results);
 };
 
 /**

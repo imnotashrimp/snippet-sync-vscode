@@ -4,6 +4,11 @@ export type AxiosHttpResponse = {
   data: any
 };
 
+export type AllHttpResults = {
+  successes: HttpSuccessResult[],
+  fails: (HttpFailResult|HttpErrorResult)[]
+};
+
 export type HttpSuccessResult = {
 status: 'success',
 data: object,

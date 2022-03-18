@@ -1,29 +1,5 @@
 const axios = require('axios');
-
-type AxiosHttpResponse = {
-    status: string | number,
-    statusText: string,
-    data: any
-};
-
-type HttpSuccessResult = {
-  status: 'success',
-  data: object,
-  url: string
-};
-
-type HttpFailResult = {
-  status: 'fail',
-  reason: 'no_data_in_response' | 'data_type_not_object',
-  url: string
-};
-
-type HttpErrorResult = {
-  status: 'fail',
-  reason: 'error',
-  error: any,
-  url: string
-};
+import {AxiosHttpResponse, HttpSuccessResult, HttpFailResult, HttpErrorResult} from './types';
 
 /**
  * @function downloadSnippets

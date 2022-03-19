@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import {retrieveSnippets} from './retrieveSnippets';
 import { clearSnippetsDir } from './clearSnippetsDir';
+import { writeSnippetFiles } from './writeSnippetFiles';
 
 const path = require('path');
 
@@ -17,6 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 		console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
 		clearSnippetsDir(snippetsDir);
 		const retrievedSnippets = await retrieveSnippets(snippetsDir, snippetFilesList);
+		writeSnippetFiles(snippetsDir, retrievedSnippets.successes);
 	});
 
 	context.subscriptions.push(disposable);

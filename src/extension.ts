@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {downloadSnippets} from './downloadSnippets';
+import {retrieveSnippets} from './retrieveSnippets';
 
 const path = require('path');
 
@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let disposable = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', () => {
 		console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
-		downloadSnippets(snippetsDir, snippetFilesList);
+		retrieveSnippets(snippetsDir, snippetFilesList);
 	});
 
 	context.subscriptions.push(disposable);

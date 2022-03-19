@@ -7,7 +7,7 @@ import {convertUrlToFilename, convertFilenameToUrl} from './convertUrlToFilename
  * @param localSnippetsDir {string} Path to the local snippets directory
  * @param fileUrls {string[]} List of URLs of snippet JSON files to download
  */
-export const downloadSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<AllHttpResults> => {
+export const retrieveSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<AllHttpResults> => {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
   let results: AllHttpResults = {
     successes: [],

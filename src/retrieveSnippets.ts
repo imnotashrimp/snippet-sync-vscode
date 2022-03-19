@@ -1,6 +1,6 @@
 const axios = require('axios');
 import {AxiosHttpResponse, AllHttpResults, HttpSuccessResult, HttpFailResult, HttpErrorResult} from './types';
-import {convertUrlToFilename, convertFilenameToUrl} from './convertUrlToFilename';
+import {convertUrlToFilename, convertFilenameToUrl} from './convertFilenames';
 
 /**
  * @function downloadSnippets

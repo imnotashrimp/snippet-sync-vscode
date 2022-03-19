@@ -9,9 +9,9 @@ const path = require('path');
 export function activate(context: vscode.ExtensionContext) {
 	console.log('shalom world, "snippet-sync-vscode" is now active');
 
-	const thisExtensionSnippetsSubfolder = context.globalStorageUri.path.split(path.sep).reverse()[0];
-	const snippetsDir = path.resolve(context.globalStorageUri.path, '../..', 'snippets', thisExtensionSnippetsSubfolder);
-	const snippetFilesList = vscode.workspace.getConfiguration('snippetSync').get<string[]>('snippetFiles') || [];
+	const thisExtensionSnippetsSubfolder: string = context.globalStorageUri.path.split(path.sep).reverse()[0];
+	const snippetsDir: string = path.resolve(context.globalStorageUri.path, '../..', 'snippets', thisExtensionSnippetsSubfolder);
+	const snippetFilesList: string[] = vscode.workspace.getConfiguration('snippetSync').get<string[]>('snippetFiles') || [];
 
 	let disposable = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', () => {
 		console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');

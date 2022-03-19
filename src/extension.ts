@@ -13,10 +13,10 @@ export function activate(context: vscode.ExtensionContext) {
 	const snippetsDir: string = path.resolve(context.globalStorageUri.path, '../..', 'snippets', thisExtensionSnippetsSubfolder);
 	const snippetFilesList: string[] = vscode.workspace.getConfiguration('snippetSync').get<string[]>('snippetFiles') || [];
 
-	let disposable = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', () => {
+	let disposable = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
 		console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
-		retrieveSnippets(snippetsDir, snippetFilesList);
 		clearSnippetsDir(snippetsDir);
+		const retrievedSnippets = await retrieveSnippets(snippetsDir, snippetFilesList);
 	});
 
 	context.subscriptions.push(disposable);

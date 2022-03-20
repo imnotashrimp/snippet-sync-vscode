@@ -28,3 +28,19 @@ export type HttpErrorResult = {
   error: any,
   url: string
 };
+
+export type AllWriteResults = {
+  successes: WriteSuccessResult[],
+  fails: WriteFailResult[]
+}
+
+export type WriteSuccessResult = {
+  status: 'write_success',
+  url: string
+};
+
+export type WriteFailResult = {
+  status: 'write_fail',
+  url: string,
+  error: any
+};

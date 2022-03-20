@@ -16,8 +16,14 @@ export function activate(context: vscode.ExtensionContext) {
 	let disposable = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
 		console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
 		clearSnippets(snippetsDir);
+
 		const retrievedSnippets = await retrieveSnippets(snippetsDir, snippetFilesList);
+		vscode.window.showWarningMessage(`${retrievedSnippets.fails.length} snippet files can't be retrieved:
+			${retrievedSnippets.fails.map(failedFile => failedFile.url).join(', \n')}`
+		);
+
 		writeSnippetFiles(snippetsDir, retrievedSnippets.successes);
+		// TODO pop success message for written files
 	});
 
 	context.subscriptions.push(disposable);

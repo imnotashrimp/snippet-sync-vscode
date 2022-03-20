@@ -7,7 +7,7 @@ import {convertUrlToFilename, convertFilenameToUrl} from './convertFilenames';
  * @param localSnippetsDir {string} Path to the local snippets directory
  * @param fileUrls {string[]} List of URLs of snippet JSON files to download
  */
-export const retrieveSnippets = async (localSnippetsDir: string, fileUrls: string[]): Promise<AllHttpResults> => {
+export async function retrieveSnippets (localSnippetsDir: string, fileUrls: string[]): Promise<AllHttpResults> {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
   let results: AllHttpResults = {
     successes: [],
@@ -39,7 +39,7 @@ export const retrieveSnippets = async (localSnippetsDir: string, fileUrls: strin
  * @param url {string} URL of the file to download
  * @returns result {Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult>}
  */
-const fetchFile = async (url: string): Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult> => {
+async function fetchFile (url: string): Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult> {
   console.log(`fetchFile() called for ${url}`);
   const targetSnippetFilename = convertUrlToFilename(url);
 

@@ -32,7 +32,7 @@ export type HttpErrorResult = {
 export type AllWriteResults = {
   successes: WriteSuccessResult[],
   fails: WriteFailResult[]
-}
+};
 
 export type WriteSuccessResult = {
   status: 'write_success',

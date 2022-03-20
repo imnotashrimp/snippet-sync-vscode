@@ -1,7 +1,7 @@
 {
-	"name": "team-snippets",
-	"displayName": "Team Snippets",
-	"description": "Keep your snippets up to date for your entire team across projects.",
+	"name": "snippet-sync-vscode",
+	"displayName": "Snippet Sync",
+	"description": "Keep your team's snippets up to date across projects.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.50.0"
@@ -10,24 +10,33 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:team-snippets.addSnippetFile",
-		"onCommand:team-snippets.updateAllSnippetFiles",
-		"onCommand:team-snippets.deleteSnippetFile"
+		"onCommand:snippet-sync-vscode.updateAllSnippetFiles",
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"configuration": {
+			"title": "Snippet Sync",
+			"properties": {
+				"snippetSync.snippetFiles": {
+					"type": "array",
+					"description": "URLs of snippet files to sync. If you remove a URL from the list, the local file will be deleted at the next update.",
+					"items": {
+						"type": "string"
+					}
+				},
+				"snippetSync.timeBetweenUpdates": {
+					"type": "number",
+					"default": 60,
+					"description": "Time between automatic updates in minutes. To disable, set to 0.",
+					"minimum": 0,
+					"maximum": 1440
+				}
+			}
+		},
 		"commands": [
 			{
-				"command": "team-snippets.addSnippetFile",
-				"title": "Team Snippets: Add a snippet file"
-			},
-			{
-				"command": "team-snippets.updateAllSnippetFiles",
-				"title": "Team Snippets: Update all snippet files"
-			},
-			{
-				"command": "team-snippets.deleteSnippetFile",
-				"title": "Team Snippets: Delete a snippet file"
+				"command": "snippet-sync-vscode.updateAllSnippetFiles",
+				"title": "Snippet Sync: Update all snippet files"
 			}
 		]
 	},
@@ -40,16 +49,19 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.50.0",
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^8.0.0",
 		"@types/node": "^12.11.7",
-		"eslint": "^7.9.0",
+		"@types/vscode": "^1.50.0",
 		"@typescript-eslint/eslint-plugin": "^4.1.1",
 		"@typescript-eslint/parser": "^4.1.1",
+		"eslint": "^7.9.0",
 		"glob": "^7.1.6",
 		"mocha": "^8.1.3",
 		"typescript": "^4.0.2",
 		"vscode-test": "^1.4.0"
+	},
+	"dependencies": {
+		"axios": "^0.26.0"
 	}
 }

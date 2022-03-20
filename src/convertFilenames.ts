@@ -1,4 +1,4 @@
-const prefix = 'snippet-sync__';
+export const prefix = 'snippet-sync__';
 const extension = '.code-snippets';
 
 export function convertUrlToFilename(url: string): string {

@@ -10,20 +10,20 @@ export type AllHttpResults = {
 };
 
 export type HttpSuccessResult = {
-  status: 'success',
+  status: 'http_fetch_success',
   data: object,
   url: string,
   targetSnippetFilename: string
 };
 
 export type HttpFailResult = {
-  status: 'fail',
+  status: 'http_fetch_fail',
   reason: 'no_data_in_response' | 'data_type_not_object',
   url: string
 };
 
 export type HttpErrorResult = {
-  status: 'fail',
+  status: 'http_fetch_fail',
   reason: 'error',
   error: any,
   url: string

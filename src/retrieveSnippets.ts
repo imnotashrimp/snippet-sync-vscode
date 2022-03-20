@@ -20,10 +20,10 @@ export async function retrieveSnippets (localSnippetsDir: string, fileUrls: stri
     const response = await fetchFile(fileUrl);
 
     switch (response.status) {
-      case 'success':
+      case 'http_fetch_success':
         results.successes.push(response);
         break;
-      default: // 'fail'
+      default: // 'http_fetch_fail'
         results.fails.push(response);
         break;
     }
@@ -48,15 +48,15 @@ async function fetchFile (url: string): Promise<HttpSuccessResult|HttpFailResult
     console.log(`Response received for ${url}:`, {response});
 
     if (!response?.data) {
-      return { status: 'fail', reason: 'no_data_in_response', url };
+      return { status: 'http_fetch_fail', reason: 'no_data_in_response', url };
     }
 
     if (typeof response.data !== 'object') {
-      return { status: 'fail', reason: 'data_type_not_object', url };
+      return { status: 'http_fetch_fail', reason: 'data_type_not_object', url };
     }
 
-    return { status: 'success', data: response.data, url, targetSnippetFilename };
+    return { status: 'http_fetch_success', data: response.data, url, targetSnippetFilename };
   } catch (error) {
-    return { status: 'fail', reason: 'error', error, url };
+    return { status: 'http_fetch_fail', reason: 'error', error, url };
   }
 };

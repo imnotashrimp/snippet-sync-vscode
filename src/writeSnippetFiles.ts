@@ -16,10 +16,13 @@ export function writeSnippetFiles(snippetsDir: string, snippetsToWrite: HttpSucc
     try {
       fs.writeFileSync(snippetFilePath, JSON.stringify(file.data, null, 2));
       writeResults.successes.push({ status: 'write_success', url: file.url });
+      console.debug(`Successfully wrote snippet file to ${snippetFilePath}`);
     } catch (error) {
       writeResults.fails.push({ status: 'write_fail', url: file.url, error });
+      console.debug(`Failed to write snippet file to ${snippetFilePath}`, error);
     }
   }
 
+  console.debug(`Snippet file write results:`, writeResults);
   return writeResults;
 }

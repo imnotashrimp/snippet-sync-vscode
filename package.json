@@ -10,7 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:snippet-sync-vscode.updateAllSnippetFiles",
+		"onCommand:snippet-sync-vscode.updateAllSnippetFiles"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

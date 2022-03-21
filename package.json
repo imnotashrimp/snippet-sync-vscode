@@ -37,6 +37,10 @@
 			{
 				"command": "snippet-sync-vscode.updateAllSnippetFiles",
 				"title": "Snippet Sync: Update all snippet files"
+			},
+			{
+				"command": "snippet-sync-vscode.authenticateWithGitHub",
+				"title": "Snippet Sync: Authenticate with GitHub"
 			}
 		]
 	},

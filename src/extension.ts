@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const snippetsDir: string = path.resolve(context.globalStorageUri.path, '../..', 'snippets');
 	const snippetFilesList: string[] = vscode.workspace.getConfiguration('snippetSync').get<string[]>('snippetFiles') || [];
 
-	let disposable = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
+	let updateAllSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
 		console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
 		clearSnippets(snippetsDir);
 
@@ -48,7 +48,11 @@ export function activate(context: vscode.ExtensionContext) {
 		console.log('snippet-sync update results:', {allSuccesses, allFails});
 	});
 
-	context.subscriptions.push(disposable);
+	let authenticateWithGitHub = vscode.commands.registerCommand('snippet-sync-vscode.authenticateWithGitHub', async () => {
+		console.log('"snippet-sync-vscode.authenticateWithGitHub" command called');
+	});
+
+	context.subscriptions.push(updateAllSnippetFiles, authenticateWithGitHub);
 }
 
 // this method is called when your extension is deactivated

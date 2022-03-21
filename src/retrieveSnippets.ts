@@ -48,11 +48,11 @@ async function fetchFile (url: string): Promise<HttpSuccessResult|HttpFailResult
     console.log(`Response received for ${url}:`, {response});
 
     if (!response?.data) {
-      return { status: 'http_fetch_fail', reason: 'no_data_in_response', url };
+      return { status: 'http_fetch_fail', response, reason: 'no_data_in_response', url };
     }
 
     if (typeof response.data !== 'object') {
-      return { status: 'http_fetch_fail', reason: 'data_type_not_object', url };
+      return { status: 'http_fetch_fail', response, reason: 'data_type_not_object', url };
     }
 
     return { status: 'http_fetch_success', data: response.data, url, targetSnippetFilename };

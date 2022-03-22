@@ -10,7 +10,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:snippet-sync-vscode.updateAllSnippetFiles"
+		"onCommand:snippet-sync-vscode.updateAllSnippetFiles",
+		"onCommand:snippet-sync-vscode.signInToGitHub"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -39,8 +40,8 @@
 				"title": "Snippet Sync: Update all snippet files"
 			},
 			{
-				"command": "snippet-sync-vscode.authenticateWithGitHub",
-				"title": "Snippet Sync: Authenticate with GitHub"
+				"command": "snippet-sync-vscode.signInToGitHub",
+				"title": "Snippet Sync: Sign In to GitHub"
 			}
 		]
 	},

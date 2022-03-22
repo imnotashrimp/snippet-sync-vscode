@@ -19,6 +19,8 @@ export function activate(context: vscode.ExtensionContext) {
 		clearSnippets(snippetsDir);
 
 		const httpFetchResults = await retrieveSnippets(snippetsDir, snippetFilesList);
+		const session = await vscode.authentication.getSession('github', ['repo'], {createIfNone: false});
+		const authToken = session?.accessToken || null;
 		const writeResults = writeSnippetFiles(snippetsDir, httpFetchResults.successes);
 
 		// Build success & fail reporting arrays
@@ -48,11 +50,17 @@ export function activate(context: vscode.ExtensionContext) {
 		console.log('snippet-sync update results:', {allSuccesses, allFails});
 	});
 
-	let authenticateWithGitHub = vscode.commands.registerCommand('snippet-sync-vscode.authenticateWithGitHub', async () => {
-		console.log('"snippet-sync-vscode.authenticateWithGitHub" command called');
+	let signInToGitHub = vscode.commands.registerCommand('snippet-sync-vscode.signInToGitHub', async () => {
+		console.log('"snippet-sync-vscode.signInToGitHub" command called');
+
+ 		const session = await vscode.authentication.getSession('github', ['repo'], {
+			createIfNone: true
+		});
+
+		console.log({session});
 	});
 
-	context.subscriptions.push(updateAllSnippetFiles, authenticateWithGitHub);
+	context.subscriptions.push(updateAllSnippetFiles, signInToGitHub);
 }
 
 // this method is called when your extension is deactivated

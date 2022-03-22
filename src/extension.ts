@@ -40,8 +40,24 @@ export function activate(context: vscode.ExtensionContext) {
 				and that ${allFails.length === 1 ? 'it contains' : 'they contain'} valid JSON.
 				To stop seeing this message,
 				remove the ${fileOrFiles} from the Snippet Sync config:
-				${allFails.map(fail => fail.url).join(', ')}`
-			);
+				${allFails.map(fail => fail.url).join(', ')}`,
+				{
+					title: 'Sign in',
+					command: 'signInToGitHub'
+				},
+				{
+					title: 'Got it',
+					isCloseAffordance: true
+				}
+			)
+			.then(action => {
+				if (!action) {return;}
+				switch (action.command) {
+					case 'signInToGitHub':
+						vscode.commands.executeCommand('snippet-sync-vscode.signInToGitHub');
+						break;
+				}
+			});
 		}
 
 		if (allSuccesses.length > 0) {
@@ -57,11 +73,12 @@ export function activate(context: vscode.ExtensionContext) {
 	let signInToGitHub = vscode.commands.registerCommand('snippet-sync-vscode.signInToGitHub', async () => {
 		console.log('"snippet-sync-vscode.signInToGitHub" command called');
 
- 		const session = await vscode.authentication.getSession('github', ['repo'], {
+ 		await vscode.authentication.getSession('github', ['repo'], {
 			createIfNone: true
 		});
 
-		console.log('Session created successfully');
+		vscode.window.showInformationMessage("Snippet Sync is signed in to GitHub");
+		console.log('GitHub session created successfully');
 	});
 
 	context.subscriptions.push(updateAllSnippetFiles, signInToGitHub);

@@ -18,9 +18,10 @@ export function activate(context: vscode.ExtensionContext) {
 		console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
 		clearSnippets(snippetsDir);
 
-		const httpFetchResults = await retrieveSnippets(snippetsDir, snippetFilesList);
 		const session = await vscode.authentication.getSession('github', ['repo'], {createIfNone: false});
 		const authToken = session?.accessToken || null;
+
+		const httpFetchResults = await retrieveSnippets(snippetsDir, snippetFilesList, authToken);
 		const writeResults = writeSnippetFiles(snippetsDir, httpFetchResults.successes);
 
 		// Build success & fail reporting arrays
@@ -32,10 +33,13 @@ export function activate(context: vscode.ExtensionContext) {
 			const fileOrFiles = allFails.length === 1 ? 'file' : 'files';
 
 			vscode.window.showWarningMessage(
-				`${allFails.length} snippet ${fileOrFiles} couldn't be updated.
-				Please check that the ${fileOrFiles} can be accessed without authentication
+				`${allFails.length} snippet ${fileOrFiles} couldn't be updated
+				because ${allFails.length === 1 ? 'it' : 'they'} couldn't be accessed.
+				If the ${fileOrFiles} are private, you may need to sign in to GitHub.
+				Check that the ${fileOrFiles} can be accessed
 				and that ${allFails.length === 1 ? 'it contains' : 'they contain'} valid JSON.
-				To stop seeing this message, remove the ${fileOrFiles} from the Snippet Sync config:
+				To stop seeing this message,
+				remove the ${fileOrFiles} from the Snippet Sync config:
 				${allFails.map(fail => fail.url).join(', ')}`
 			);
 		}
@@ -57,7 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
 			createIfNone: true
 		});
 
-		console.log({session});
+		console.log('Session created successfully');
 	});
 
 	context.subscriptions.push(updateAllSnippetFiles, signInToGitHub);

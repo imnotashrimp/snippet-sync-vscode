@@ -14,11 +14,14 @@ export function activate(context: vscode.ExtensionContext) {
 	const snippetsDir: string = path.resolve(context.globalStorageUri.path, '../..', 'snippets');
 	const snippetFilesList: string[] = vscode.workspace.getConfiguration('snippetSync').get<string[]>('snippetFiles') || [];
 
-	let disposable = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
+	let updateAllSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
 		console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
 		clearSnippets(snippetsDir);
 
-		const httpFetchResults = await retrieveSnippets(snippetsDir, snippetFilesList);
+		const session = await vscode.authentication.getSession('github', ['repo'], {createIfNone: false});
+		const authToken = session?.accessToken || null;
+
+		const httpFetchResults = await retrieveSnippets(snippetsDir, snippetFilesList, authToken);
 		const writeResults = writeSnippetFiles(snippetsDir, httpFetchResults.successes);
 
 		// Build success & fail reporting arrays
@@ -30,12 +33,31 @@ export function activate(context: vscode.ExtensionContext) {
 			const fileOrFiles = allFails.length === 1 ? 'file' : 'files';
 
 			vscode.window.showWarningMessage(
-				`${allFails.length} snippet ${fileOrFiles} couldn't be updated.
-				Please check that the ${fileOrFiles} can be accessed without authentication
+				`${allFails.length} snippet ${fileOrFiles} couldn't be updated
+				because ${allFails.length === 1 ? 'it' : 'they'} couldn't be accessed.
+				If the ${fileOrFiles} are private, you may need to sign in to GitHub.
+				Check that the ${fileOrFiles} can be accessed
 				and that ${allFails.length === 1 ? 'it contains' : 'they contain'} valid JSON.
-				To stop seeing this message, remove the ${fileOrFiles} from the Snippet Sync config:
-				${allFails.map(fail => fail.url).join(', ')}`
-			);
+				To stop seeing this message,
+				remove the ${fileOrFiles} from the Snippet Sync config:
+				${allFails.map(fail => fail.url).join(', ')}`,
+				{
+					title: 'Sign in',
+					command: 'signInToGitHub'
+				},
+				{
+					title: 'Got it',
+					isCloseAffordance: true
+				}
+			)
+			.then(action => {
+				if (!action) {return;}
+				switch (action.command) {
+					case 'signInToGitHub':
+						vscode.commands.executeCommand('snippet-sync-vscode.signInToGitHub');
+						break;
+				}
+			});
 		}
 
 		if (allSuccesses.length > 0) {
@@ -48,7 +70,18 @@ export function activate(context: vscode.ExtensionContext) {
 		console.log('snippet-sync update results:', {allSuccesses, allFails});
 	});
 
-	context.subscriptions.push(disposable);
+	let signInToGitHub = vscode.commands.registerCommand('snippet-sync-vscode.signInToGitHub', async () => {
+		console.log('"snippet-sync-vscode.signInToGitHub" command called');
+
+ 		await vscode.authentication.getSession('github', ['repo'], {
+			createIfNone: true
+		});
+
+		vscode.window.showInformationMessage("Snippet Sync is signed in to GitHub");
+		console.log('GitHub session created successfully');
+	});
+
+	context.subscriptions.push(updateAllSnippetFiles, signInToGitHub);
 }
 
 // this method is called when your extension is deactivated

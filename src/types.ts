@@ -18,6 +18,7 @@ export type HttpSuccessResult = {
 
 export type HttpFailResult = {
   status: 'http_fetch_fail',
+  response: {},
   reason: 'no_data_in_response' | 'data_type_not_object',
   url: string
 };

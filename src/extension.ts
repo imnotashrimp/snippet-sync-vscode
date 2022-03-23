@@ -73,12 +73,27 @@ export function activate(context: vscode.ExtensionContext) {
 	let signInToGitHub = vscode.commands.registerCommand('snippet-sync-vscode.signInToGitHub', async () => {
 		console.log('"snippet-sync-vscode.signInToGitHub" command called');
 
- 		await vscode.authentication.getSession('github', ['repo'], {
-			createIfNone: true
-		});
+			const getSession = vscode.authentication.getSession('github', ['repo'], {createIfNone: true})
+			  .then(() => {
+          vscode.window.showInformationMessage("Snippet Sync is signed in to GitHub");
+          console.log('GitHub session created successfully');
+        });
 
-		vscode.window.showInformationMessage("Snippet Sync is signed in to GitHub");
-		console.log('GitHub session created successfully');
+			// Set timeout for the previous promise
+      const timeout = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve('timeout');
+        }, 10000); // 10s
+      });
+
+      // If the session creation takes too long, show a warning message.
+      // This doesn't block the extension from joining the session,
+      // but it at least gives the user an idea of when they can try again.
+			const result = await Promise.race([getSession, timeout]);
+      if (result === 'timeout') {
+        vscode.window.showWarningMessage("Snippet Sync couldn't sign into GitHub. Wait a minute before trying again.");
+        console.log('GitHub signin timed out');
+      }
 	});
 
 	context.subscriptions.push(updateAllSnippetFiles, signInToGitHub);

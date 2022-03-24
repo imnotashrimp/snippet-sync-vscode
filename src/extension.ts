@@ -31,13 +31,14 @@ export function activate(context: vscode.ExtensionContext) {
     // Pop success & failure messages, and log full objects
     if (allFails.length > 0) {
       const fileOrFiles = allFails.length === 1 ? 'file' : 'files';
+      const plural = allFails.length === 1;
 
       vscode.window.showWarningMessage(
         `${allFails.length} snippet ${fileOrFiles} couldn't be updated
-        because ${allFails.length === 1 ? 'it' : 'they'} couldn't be accessed.
-        If the ${fileOrFiles} are private, you may need to sign in to GitHub.
+        because ${plural ? 'it' : 'they'} couldn't be accessed.
+        If the ${fileOrFiles} ${plural ? 'is' : 'are'} private, you may need to sign in to GitHub.
         Check that the ${fileOrFiles} can be accessed
-        and that ${allFails.length === 1 ? 'it contains' : 'they contain'} valid JSON.
+        and that ${plural ? 'it contains' : 'they contain'} valid JSON.
         To stop seeing this message,
         remove the ${fileOrFiles} from the Snippet Sync config:
         ${allFails.map(fail => fail.url).join(', ')}`,
@@ -61,8 +62,9 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     if (allSuccesses.length > 0) {
+      const plural = allSuccesses.length === 1;
       vscode.window.showInformationMessage(
-        `${allSuccesses.length} snippet ${allSuccesses.length === 1 ? 'file was' : 'files were'} updated:
+        `${allSuccesses.length} snippet ${plural ? 'file' : 'files'} updated:
         ${allSuccesses.map(success => success.url).join(', ')}`
       );
     }

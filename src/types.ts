@@ -45,3 +45,11 @@ export type WriteFailResult = {
   url: string,
   error: any
 };
+
+export type ParsedGitHubFileUri = {
+  host: string,
+  owner: string,
+  repo: string,
+  ref: string,
+  path: string
+};

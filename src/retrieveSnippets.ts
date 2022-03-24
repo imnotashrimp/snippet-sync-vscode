@@ -1,8 +1,15 @@
 const axios = require('axios');
 
 import { URL } from 'url';
-import {AxiosHttpResponse, AllHttpResults, HttpSuccessResult, HttpFailResult, HttpErrorResult} from './types';
-import {convertUrlToFilename, convertFilenameToUrl} from './convertFilenames';
+import {
+  AxiosHttpResponse,
+  AllHttpResults,
+  HttpSuccessResult,
+  HttpFailResult,
+  HttpErrorResult
+} from './types';
+import { convertUrlToFilename } from './convertFilenames';
+import { parseGitHubUrl, createGitHubApiRequestUrl } from './parseGitHubUrl';
 
 /**
  * @function downloadSnippets
@@ -19,7 +26,7 @@ export async function retrieveSnippets (localSnippetsDir: string, fileUrls: stri
   // Using `for` instead of fileUrls.forEach() because `for` blocks execution
   // until the loops are finished
   for (const fileUrl of fileUrls) {
-    const response = await fetchFile(fileUrl, authToken);
+    const response = await fetchFileFromGitHub(fileUrl, authToken);
 
     switch (response.status) {
       case 'http_fetch_success':
@@ -36,35 +43,32 @@ export async function retrieveSnippets (localSnippetsDir: string, fileUrls: stri
   return results;
 };
 
-/**
- * @function fetchFile
- * @param url {string} URL of the file to download
- * @returns result {Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult>}
- */
-async function fetchFile (url: string, authToken: string|null): Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult> {
-  console.log(`fetchFile() called for ${url}`);
-  const targetSnippetFilename = convertUrlToFilename(url);
-  const {hostname} = new URL(url);
-  const isGitHub = hostname.includes('github');
-  if (isGitHub === true && authToken) {
-    console.log('File is hosted on GitHub & currently in auth session. Using auth token to access...')
+async function fetchFileFromGitHub(gitHubFileUrl: string, authToken: string|null): Promise<HttpSuccessResult|HttpFailResult|HttpErrorResult> {
+  console.log(`fetchFileFromGitHub() called for ${gitHubFileUrl}`);
+
+  const parsedGitHubUri = parseGitHubUrl(gitHubFileUrl);
+  const requestUrl = createGitHubApiRequestUrl(parsedGitHubUri);
+
+  const targetSnippetFilename = convertUrlToFilename(gitHubFileUrl);
+  if (authToken) {
+    console.log('Currently in auth session. Using auth token to access...');
   };
-  const axiosOptions = isGitHub === true && authToken ? {headers: {'Authorization': `token ${authToken}`}} : null;
+  const axiosOptions = authToken ? {headers: {'Authorization': `token ${authToken}`}} : null;
 
   try {
-    const response: AxiosHttpResponse = await axios.get(url, axiosOptions);
-    console.log(`Response received for ${url}:`, {response});
+    const response: AxiosHttpResponse = await axios.get(requestUrl, axiosOptions);
+    console.log(`Response received for ${gitHubFileUrl}:`, {response});
 
     if (!response?.data) {
-      return { status: 'http_fetch_fail', response, reason: 'no_data_in_response', url };
+      return { status: 'http_fetch_fail', response, reason: 'no_data_in_response', url: gitHubFileUrl };
     }
 
     if (typeof response.data !== 'object') {
-      return { status: 'http_fetch_fail', response, reason: 'data_type_not_object', url };
+      return { status: 'http_fetch_fail', response, reason: 'data_type_not_object', url: gitHubFileUrl };
     }
 
-    return { status: 'http_fetch_success', data: response.data, url, targetSnippetFilename };
+    return { status: 'http_fetch_success', data: response.data, url: gitHubFileUrl, targetSnippetFilename };
   } catch (error) {
-    return { status: 'http_fetch_fail', reason: 'error', error, url };
+    return { status: 'http_fetch_fail', reason: 'error', error, url: gitHubFileUrl };
   }
-};
+}

@@ -20,9 +20,11 @@
 			"properties": {
 				"snippetSync.snippetFiles": {
 					"type": "array",
-					"description": "URLs of snippet files to sync. If you remove a URL from the list, the local file will be deleted at the next update.",
+					"markdownDescription": "Links to your GitHub-hosted snippet files. If you remove a URL from the list, the local file will be deleted at the next update. \n\n **Note:** You must link to a file in the GitHub tree. Links to the raw file contents are not supported.",
 					"items": {
-						"type": "string"
+						"type": "string",
+						"pattern": "^https?://github.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-_]+/blob/.+",
+						"patternErrorMessage": "Must be a GitHub-hosted URL."
 					}
 				},
 				"snippetSync.timeBetweenUpdates": {

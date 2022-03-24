@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-import { URL } from 'url';
+import { Buffer } from 'buffer';
 import {
   AxiosHttpResponse,
   AllHttpResults,
@@ -48,8 +48,8 @@ async function fetchFileFromGitHub(gitHubFileUrl: string, authToken: string|null
 
   const parsedGitHubUri = parseGitHubUrl(gitHubFileUrl);
   const requestUrl = createGitHubApiRequestUrl(parsedGitHubUri);
-
   const targetSnippetFilename = convertUrlToFilename(gitHubFileUrl);
+
   if (authToken) {
     console.log('Currently in auth session. Using auth token to access...');
   };
@@ -59,15 +59,9 @@ async function fetchFileFromGitHub(gitHubFileUrl: string, authToken: string|null
     const response: AxiosHttpResponse = await axios.get(requestUrl, axiosOptions);
     console.log(`Response received for ${gitHubFileUrl}:`, {response});
 
-    if (!response?.data) {
-      return { status: 'http_fetch_fail', response, reason: 'no_data_in_response', url: gitHubFileUrl };
-    }
+    const content = Buffer.from(response.data.content, 'base64').toString('utf8');
 
-    if (typeof response.data !== 'object') {
-      return { status: 'http_fetch_fail', response, reason: 'data_type_not_object', url: gitHubFileUrl };
-    }
-
-    return { status: 'http_fetch_success', data: response.data, url: gitHubFileUrl, targetSnippetFilename };
+    return { status: 'http_fetch_success', data: response.data, content, url: gitHubFileUrl, targetSnippetFilename };
   } catch (error) {
     return { status: 'http_fetch_fail', reason: 'error', error, url: gitHubFileUrl };
   }

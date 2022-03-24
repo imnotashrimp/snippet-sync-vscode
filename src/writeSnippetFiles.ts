@@ -14,8 +14,8 @@ export function writeSnippetFiles(snippetsDir: string, snippetsToWrite: HttpSucc
     console.log(`Writing snippet file to ${snippetFilePath}`);
 
     try {
-      fs.writeFileSync(snippetFilePath, JSON.stringify(file.data, null, 2));
-      writeResults.successes.push({ status: 'write_success', url: file.url });
+      fs.writeFileSync(snippetFilePath, file.content);
+      writeResults.successes.push({ status: 'write_success', url: file.url, content: file.content });
       console.debug(`Successfully wrote snippet file to ${snippetFilePath}`);
     } catch (error) {
       writeResults.fails.push({ status: 'write_fail', url: file.url, error });

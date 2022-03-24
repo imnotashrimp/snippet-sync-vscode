@@ -12,6 +12,7 @@ export type AllHttpResults = {
 export type HttpSuccessResult = {
   status: 'http_fetch_success',
   data: object,
+  content: string,
   url: string,
   targetSnippetFilename: string
 };
@@ -37,7 +38,8 @@ export type AllWriteResults = {
 
 export type WriteSuccessResult = {
   status: 'write_success',
-  url: string
+  url: string,
+  content: string
 };
 
 export type WriteFailResult = {

@@ -2,7 +2,7 @@ import config from "../config";
 const path = require('path');
 const fs = require('fs');
 
-export function clearSnippetFiles(snippetsDir: string): void {
+export function deleteLocalSnippetFiles(snippetsDir: string): void {
   const filesInDir: string[] = fs.readdirSync(snippetsDir)
     .filter((filename: string) => filename.startsWith(config.filePrefix));
 

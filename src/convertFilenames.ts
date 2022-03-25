@@ -1,16 +1,15 @@
-export const prefix = 'snippet-sync__';
-const extension = '.code-snippets';
+import config from './config';
 
 export function convertUrlToFilename(url: string): string {
-  const filename = prefix + encodeURIComponent(url) + extension;
+  const filename = config.filePrefix + encodeURIComponent(url) + config.fileExtension;
   console.debug('Converted URL to filename:', { url, filename });
   return filename;
 }
 
 export function convertFilenameToUrl(filename: string): string {
   const strippedFilename = filename
-    .replace(new RegExp(`^${prefix}`, 'm'), '')
-    .replace(new RegExp(`${extension}$`, 'm'), '');
+    .replace(new RegExp(`^${config.filePrefix}`, 'm'), '')
+    .replace(new RegExp(`${config.fileExtension}$`, 'm'), '');
   const url = decodeURIComponent(strippedFilename);
   console.debug('Converted filename to URL:', { filename, url });
   return url;

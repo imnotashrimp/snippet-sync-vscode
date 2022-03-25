@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import {retrieveSnippets} from './snippets/remoteSnippetFiles';
 import { deleteLocalSnippetFiles, writeSnippetFiles } from './snippets/localSnippetFiles';
 import { WriteSuccessResult, HttpFailResult, HttpErrorResult, WriteFailResult } from './types';
+import { getCurrentGitHubSessionToken } from './auth/sessionToken';
 
 const path = require('path');
 
@@ -17,8 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
     deleteLocalSnippetFiles(snippetsDir);
 
-    const session = await vscode.authentication.getSession('github', ['repo'], {createIfNone: false});
-    const authToken = session?.accessToken || null;
+    const authToken = await getCurrentGitHubSessionToken();
 
     const httpFetchResults = await retrieveSnippets(snippetsDir, snippetFilesList, authToken);
     const writeResults = writeSnippetFiles(snippetsDir, httpFetchResults.successes);

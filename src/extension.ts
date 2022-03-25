@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import {retrieveSnippets} from './retrieveSnippets';
+import {retrieveSnippets} from './remoteSnippetFiles';
 import { deleteLocalSnippetFiles } from './snippets/localSnippetFiles';
 import { writeSnippetFiles } from './writeSnippetFiles';
 import { WriteSuccessResult, HttpFailResult, HttpErrorResult, WriteFailResult } from './types';

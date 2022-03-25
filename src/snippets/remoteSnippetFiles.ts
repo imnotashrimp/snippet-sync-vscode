@@ -8,8 +8,8 @@ import {
   HttpFailResult,
   HttpErrorResult
 } from './types';
-import { convertUrlToFilename } from './convertFilenames';
-import { parseGitHubUrl, createGitHubApiRequestUrl } from './parseGitHubUrl';
+import { convertUrlToFilename } from './paths/filenames';
+import { parseGitHubUrl, createGitHubApiRequestUrl } from './paths/gitHubUrl';
 
 export async function retrieveSnippets (localSnippetsDir: string, fileUrls: string[], authToken: string|null): Promise<AllHttpResults> {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });

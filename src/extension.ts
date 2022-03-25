@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
-import {retrieveSnippets} from './retrieveSnippets';
-import { clearSnippets } from './clearSnippetFiles';
-import { writeSnippetFiles } from './writeSnippetFiles';
+import {retrieveSnippets} from './snippets/remoteSnippetFiles';
+import { deleteLocalSnippetFiles, writeSnippetFiles } from './snippets/localSnippetFiles';
 import { WriteSuccessResult, HttpFailResult, HttpErrorResult, WriteFailResult } from './types';
 
 const path = require('path');
@@ -16,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   let updateAllSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
     console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
-    clearSnippets(snippetsDir);
+    deleteLocalSnippetFiles(snippetsDir);
 
     const session = await vscode.authentication.getSession('github', ['repo'], {createIfNone: false});
     const authToken = session?.accessToken || null;

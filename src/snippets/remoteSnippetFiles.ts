@@ -7,15 +7,10 @@ import {
   HttpSuccessResult,
   HttpFailResult,
   HttpErrorResult
-} from './types';
-import { convertUrlToFilename } from './convertFilenames';
-import { parseGitHubUrl, createGitHubApiRequestUrl } from './parseGitHubUrl';
+} from '../types';
+import { convertUrlToFilename } from '../paths/filenames';
+import { parseGitHubUrl, createGitHubApiRequestUrl } from '../paths/gitHubUrl';
 
-/**
- * @function downloadSnippets
- * @param localSnippetsDir {string} Path to the local snippets directory
- * @param fileUrls {string[]} List of URLs of snippet JSON files to download
- */
 export async function retrieveSnippets (localSnippetsDir: string, fileUrls: string[], authToken: string|null): Promise<AllHttpResults> {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
   let results: AllHttpResults = {
@@ -53,6 +48,7 @@ async function fetchFileFromGitHub(gitHubFileUrl: string, authToken: string|null
   if (authToken) {
     console.log('Currently in auth session. Using auth token to access...');
   };
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const axiosOptions = authToken ? {headers: {'Authorization': `token ${authToken}`}} : null;
 
   try {

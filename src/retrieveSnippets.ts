@@ -48,6 +48,7 @@ async function fetchFileFromGitHub(gitHubFileUrl: string, authToken: string|null
   if (authToken) {
     console.log('Currently in auth session. Using auth token to access...');
   };
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const axiosOptions = authToken ? {headers: {'Authorization': `token ${authToken}`}} : null;
 
   try {

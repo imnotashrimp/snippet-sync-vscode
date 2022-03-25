@@ -1,8 +1,8 @@
-import { prefix } from "./convertFilenames";
+import { prefix } from "../convertFilenames";
 const path = require('path');
 const fs = require('fs');
 
-export function clearSnippets(snippetsDir: string): void {
+export function clearSnippetFiles(snippetsDir: string): void {
   const filesInDir: string[] = fs.readdirSync(snippetsDir)
     .filter((filename: string) => filename.startsWith(prefix));
 

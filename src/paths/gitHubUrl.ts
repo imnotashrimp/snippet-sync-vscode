@@ -1,4 +1,4 @@
-import { ParsedGitHubFileUri } from "./types";
+import { ParsedGitHubFileUri } from "../types";
 import { URL } from "url";
 
 export function parseGitHubUrl(gitHubUrl: string): ParsedGitHubFileUri {

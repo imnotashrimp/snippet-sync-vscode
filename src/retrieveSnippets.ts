@@ -11,11 +11,6 @@ import {
 import { convertUrlToFilename } from './convertFilenames';
 import { parseGitHubUrl, createGitHubApiRequestUrl } from './parseGitHubUrl';
 
-/**
- * @function downloadSnippets
- * @param localSnippetsDir {string} Path to the local snippets directory
- * @param fileUrls {string[]} List of URLs of snippet JSON files to download
- */
 export async function retrieveSnippets (localSnippetsDir: string, fileUrls: string[], authToken: string|null): Promise<AllHttpResults> {
   console.log('downloadSnippets() called', { fileUrls, localSnippetsDir });
   let results: AllHttpResults = {

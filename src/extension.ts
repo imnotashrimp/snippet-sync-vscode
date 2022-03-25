@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import {retrieveSnippets} from './snippets/remoteSnippetFiles';
-import { deleteLocalSnippetFiles } from './snippets/localSnippetFiles';
-import { writeSnippetFiles } from './writeSnippetFiles';
+import { deleteLocalSnippetFiles, writeSnippetFiles } from './snippets/localSnippetFiles';
 import { WriteSuccessResult, HttpFailResult, HttpErrorResult, WriteFailResult } from './types';
 
 const path = require('path');

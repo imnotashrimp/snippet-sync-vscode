@@ -2,7 +2,7 @@
 	"name": "snippet-sync-vscode",
 	"displayName": "Snippet Sync",
 	"description": "Keep your team's snippets up to date across projects.",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"engines": {
 		"vscode": "^1.50.0"
 	},
@@ -26,13 +26,6 @@
 						"pattern": "^https?://github.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-_]+/blob/.+",
 						"patternErrorMessage": "Must be a GitHub-hosted URL."
 					}
-				},
-				"snippetSync.timeBetweenUpdates": {
-					"type": "number",
-					"default": 60,
-					"description": "Time between automatic updates in minutes. To disable, set to 0.",
-					"minimum": 0,
-					"maximum": 1440
 				}
 			}
 		},

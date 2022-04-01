@@ -39,6 +39,10 @@ This extension contributes these settings:
 
 ## Release Notes
 
+### 1.0.1
+
+Update package.json for a better Marketplace listing.
+
 ### 1.0.0
 
 Initial release 🚀🎉

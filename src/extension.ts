@@ -21,6 +21,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     const authToken = await getCurrentGitHubSessionToken();
 
+    if (snippetFilesList.length === 0) {
+      vscode.window.showWarningMessage('No snippet files configured. Add snippet files in the settings in "Snippet Sync: Snippet Files".');
+      return;
+    }
     const httpFetchResults = await retrieveSnippets(snippetsDir, snippetFilesList, authToken);
     const writeResults = writeSnippetFiles(snippetsDir, httpFetchResults.successes);
     showSnippetFileWriteNotifications(httpFetchResults, writeResults);

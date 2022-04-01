@@ -3,6 +3,7 @@
 	"publisher": "imnotashrimp",
 	"displayName": "Snippet Sync for VS Code",
 	"description": "Keep your team's snippets up to date across projects.",
+	"icon": "img/icon.png",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/imnotashrimp/snippet-sync-vscode"
@@ -12,7 +13,12 @@
 		"vscode": "^1.50.0"
 	},
 	"categories": [
-		"Other"
+		"Snippets"
+	],
+	"keywords": [
+		"snippet",
+		"sync",
+		"team"
 	],
 	"activationEvents": [
 		"onCommand:snippet-sync-vscode.updateAllSnippetFiles",

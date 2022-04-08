@@ -37,6 +37,11 @@
 						"pattern": "^https?://github.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-_]+/blob/.+",
 						"patternErrorMessage": "Must be a GitHub-hosted URL."
 					}
+				},
+				"snippetSync.autoSyncSnippetFiles": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Automatically sync snippet files every 30 minutes"
 				}
 			}
 		},

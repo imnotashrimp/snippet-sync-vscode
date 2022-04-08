@@ -13,7 +13,7 @@ Snippet Sync supports both public and private repositories.
 
 - Supports any repo hosted at github.com.
 - Sign in with your GitHub account to access snippets in private repos.
-- On-demand updates.
+- Sync automatically every 10 minutes, or sync manually whenever you want.
 
 ## Requirements
 
@@ -39,7 +39,7 @@ This extension contributes these settings:
 
 ## Release Notes
 
-### WIP
+### NEXT: 1.0.2
 
 - Add option to automatically sync snippets every 10 minutes.
   This option is enabled by default.

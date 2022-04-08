@@ -39,6 +39,12 @@ This extension contributes these settings:
 
 ## Release Notes
 
+### WIP
+
+- Add option to automatically sync snippets every 10 minutes.
+  This option is enabled by default.
+  To disable, set **Auto Sync Snippet Files** to false.
+
 ### 1.0.1
 
 Update package.json for a better Marketplace listing.

@@ -27,6 +27,11 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"keybindings": [{
+			"command": "editor.action.insertSnippet",
+			"key": "shift+alt+s",
+			"when": "editorTextFocus"
+		}],
 		"configuration": {
 			"title": "Snippet Sync",
 			"properties": {

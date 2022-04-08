@@ -14,6 +14,7 @@ Snippet Sync supports both public and private repositories.
 - Supports any repo hosted at github.com.
 - Sign in with your GitHub account to access snippets in private repos.
 - Sync automatically every 10 minutes, or sync manually whenever you want.
+- Keyboard shortcut for syncing (**alt + shift + s**).
 
 ## Requirements
 
@@ -44,6 +45,9 @@ This extension contributes these settings:
 - Add option to automatically sync snippets every 10 minutes.
   This option is enabled by default.
   To disable, set **Auto Sync Snippet Files** to false.
+  ([#17](https://github.com/imnotashrimp/snippet-sync-vscode/pull/17))
+- Add **alt + shift + s** keyboard shortcut for **Insert Snippet".
+  ([#19](https://github.com/imnotashrimp/snippet-sync-vscode/pull/19))
 
 ### 1.0.1
 

@@ -68,6 +68,7 @@ export function deactivate() {}
 export function autoSyncSnippets() {
   if (vscode.workspace.getConfiguration('snippetSync').get<boolean>('autoSyncSnippetFiles') === true) {
     console.log(`Auto syncing snippets. Next sync in ${config.autoSyncTimeInterval / 1000} seconds.`);
+    vscode.commands.executeCommand('snippet-sync-vscode.syncSnippetFiles');
   }
 
   setTimeout(autoSyncSnippets, config.autoSyncTimeInterval);

@@ -1,7 +1,7 @@
 {
 	"name": "snippet-sync-vscode",
 	"publisher": "imnotashrimp",
-	"displayName": "Snippet Sync for VS Code",
+	"displayName": "Snippet Sync",
 	"description": "Keep your team's snippets up to date across projects.",
 	"icon": "img/icon.png",
 	"repository": {

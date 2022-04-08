@@ -1,7 +1,7 @@
 {
 	"name": "snippet-sync-vscode",
 	"publisher": "imnotashrimp",
-	"displayName": "Snippet Sync for VS Code",
+	"displayName": "Snippet Sync",
 	"description": "Keep your team's snippets up to date across projects.",
 	"icon": "img/icon.png",
 	"repository": {
@@ -21,7 +21,8 @@
 		"team"
 	],
 	"activationEvents": [
-		"onCommand:snippet-sync-vscode.updateAllSnippetFiles",
+		"onStartupFinished",
+		"onCommand:snippet-sync-vscode.syncSnippetFiles",
 		"onCommand:snippet-sync-vscode.signInToGitHub"
 	],
 	"main": "./out/extension.js",
@@ -37,13 +38,18 @@
 						"pattern": "^https?://github.com/[a-zA-Z0-9-]+/[a-zA-Z0-9-_]+/blob/.+",
 						"patternErrorMessage": "Must be a GitHub-hosted URL."
 					}
+				},
+				"snippetSync.autoSyncSnippetFiles": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Automatically sync snippet files every 10 minutes"
 				}
 			}
 		},
 		"commands": [
 			{
-				"command": "snippet-sync-vscode.updateAllSnippetFiles",
-				"title": "Snippet Sync: Update all snippet files"
+				"command": "snippet-sync-vscode.syncSnippetFiles",
+				"title": "Snippet Sync: Sync snippet files"
 			},
 			{
 				"command": "snippet-sync-vscode.signInToGitHub",

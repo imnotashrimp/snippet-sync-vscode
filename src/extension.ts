@@ -4,6 +4,7 @@ import { deleteLocalSnippetFiles, writeSnippetFiles } from './snippets/localSnip
 import { WriteSuccessResult, HttpFailResult, HttpErrorResult, WriteFailResult } from './types';
 import { getCurrentGitHubSessionToken } from './auth/sessionToken';
 import { showSnippetFileWriteNotifications } from './notifications/snippetFileWriteNotifications';
+import config from './config';
 
 const path = require('path');
 
@@ -14,8 +15,10 @@ export function activate(context: vscode.ExtensionContext) {
 
   const snippetsDir: string = path.resolve(context.globalStorageUri.path, '../..', 'snippets');
 
-  let updateAllSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
-    console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
+  autoSyncSnippets();
+
+  let syncSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.syncSnippetFiles', async () => {
+    console.log('"snippet-sync-vscode.syncSnippetFiles" command called');
     const snippetFilesList: string[] = vscode.workspace.getConfiguration('snippetSync').get<string[]>('snippetFiles') || [];
     deleteLocalSnippetFiles(snippetsDir);
 
@@ -56,8 +59,17 @@ export function activate(context: vscode.ExtensionContext) {
       }
   });
 
-  context.subscriptions.push(updateAllSnippetFiles, signInToGitHub);
+  context.subscriptions.push(syncSnippetFiles, signInToGitHub);
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {}
+
+export function autoSyncSnippets() {
+  if (vscode.workspace.getConfiguration('snippetSync').get<boolean>('autoSyncSnippetFiles') === true) {
+    console.log(`Auto syncing snippets. Next sync in ${config.autoSyncTimeInterval / 1000 / 60} minutes.`);
+    vscode.commands.executeCommand('snippet-sync-vscode.syncSnippetFiles');
+  }
+
+  setTimeout(autoSyncSnippets, config.autoSyncTimeInterval);
+}

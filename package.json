@@ -49,7 +49,7 @@
 		"commands": [
 			{
 				"command": "snippet-sync-vscode.syncSnippetFiles",
-				"title": "Snippet Sync: Sync all snippet files"
+				"title": "Snippet Sync: Sync snippet files"
 			},
 			{
 				"command": "snippet-sync-vscode.signInToGitHub",

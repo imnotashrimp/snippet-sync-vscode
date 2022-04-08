@@ -21,6 +21,7 @@
 		"team"
 	],
 	"activationEvents": [
+		"onStartupFinished",
 		"onCommand:snippet-sync-vscode.syncSnippetFiles",
 		"onCommand:snippet-sync-vscode.signInToGitHub"
 	],

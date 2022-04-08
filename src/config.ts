@@ -1,7 +1,7 @@
 const config = {
   filePrefix: 'snippet-sync__',
   fileExtension: '.code-snippets',
-  autoSyncTimeInterval: 1800000 // 30 minutes
+  autoSyncTimeInterval: 10 * 60 * 1000, // 10 minutes
 };
 
 export default config;

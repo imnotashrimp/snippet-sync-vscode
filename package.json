@@ -42,7 +42,7 @@
 				"snippetSync.autoSyncSnippetFiles": {
 					"type": "boolean",
 					"default": true,
-					"markdownDescription": "Automatically sync snippet files every 30 minutes"
+					"markdownDescription": "Automatically sync snippet files every 10 minutes"
 				}
 			}
 		},

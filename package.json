@@ -21,7 +21,7 @@
 		"team"
 	],
 	"activationEvents": [
-		"onCommand:snippet-sync-vscode.updateAllSnippetFiles",
+		"onCommand:snippet-sync-vscode.syncSnippetFiles",
 		"onCommand:snippet-sync-vscode.signInToGitHub"
 	],
 	"main": "./out/extension.js",
@@ -42,8 +42,8 @@
 		},
 		"commands": [
 			{
-				"command": "snippet-sync-vscode.updateAllSnippetFiles",
-				"title": "Snippet Sync: Update all snippet files"
+				"command": "snippet-sync-vscode.syncSnippetFiles",
+				"title": "Snippet Sync: Sync all snippet files"
 			},
 			{
 				"command": "snippet-sync-vscode.signInToGitHub",

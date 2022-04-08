@@ -14,8 +14,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   const snippetsDir: string = path.resolve(context.globalStorageUri.path, '../..', 'snippets');
 
-  let updateAllSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.updateAllSnippetFiles', async () => {
-    console.log('"snippet-sync-vscode.updateAllSnippetFiles" command called');
+  let updateAllSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.syncSnippetFiles', async () => {
+    console.log('"snippet-sync-vscode.syncSnippetFiles" command called');
     const snippetFilesList: string[] = vscode.workspace.getConfiguration('snippetSync').get<string[]>('snippetFiles') || [];
     deleteLocalSnippetFiles(snippetsDir);
 

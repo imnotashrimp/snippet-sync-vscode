@@ -42,7 +42,7 @@ This extension contributes these settings:
 
 ## Release Notes
 
-### NEXT: 1.0.2
+### 1.0.2
 
 - Add option to automatically sync snippets every 10 minutes.
   This option is enabled by default.

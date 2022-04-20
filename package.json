@@ -23,7 +23,8 @@
 	"activationEvents": [
 		"onStartupFinished",
 		"onCommand:snippet-sync-vscode.syncSnippetFiles",
-		"onCommand:snippet-sync-vscode.signInToGitHub"
+		"onCommand:snippet-sync-vscode.signInToGitHub",
+		"onCommand:snippet-sync-vscode.showCommandsMenu"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

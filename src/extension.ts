@@ -19,6 +19,7 @@ export function activate({subscriptions, globalStorageUri}: vscode.ExtensionCont
 	let statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 1);
   statusBarItem.tooltip = 'Snippet Sync';
   statusBarItem.text = 'Snippets';
+  statusBarItem.command = 'snippet-sync-vscode.showCommandsMenu';
   statusBarItem.show();
 
   autoSyncSnippets();
@@ -72,7 +73,30 @@ export function activate({subscriptions, globalStorageUri}: vscode.ExtensionCont
       }
   });
 
-  subscriptions.push(syncSnippetFiles, signInToGitHub, statusBarItem);
+  let showCommandsMenu = vscode.commands.registerCommand('snippet-sync-vscode.showCommandsMenu', async () => {
+    console.log('"snippet-sync-vscode.showCommandsMenu" command called');
+    const commands = [
+      {
+        alwaysShow: true,
+        command: 'snippet-sync-vscode.syncSnippetFiles',
+        label: 'Sync Snippet Files',
+        detail: '$(sync) Sync all configured snippet files'
+      },
+      {
+        alwaysShow: true,
+        command: 'snippet-sync-vscode.signInToGitHub',
+        label: 'Sign In to GitHub',
+        detail: 'Required if any of the files are private'
+      }
+    ];
+    vscode.window.showQuickPick(commands).then(command => {
+      if (command) {
+        vscode.commands.executeCommand(command.command);
+      }
+    });
+  });
+
+  subscriptions.push(syncSnippetFiles, signInToGitHub, statusBarItem, showCommandsMenu);
 }
 
 // this method is called when your extension is deactivated

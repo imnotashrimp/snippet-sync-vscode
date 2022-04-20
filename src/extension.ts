@@ -86,7 +86,7 @@ export function activate({subscriptions, globalStorageUri}: vscode.ExtensionCont
         alwaysShow: true,
         command: 'snippet-sync-vscode.signInToGitHub',
         label: 'Sign In to GitHub',
-        detail: 'Required if any of the files are private'
+        detail: '$(unlock) Required if any of the files are private'
       }
     ];
     vscode.window.showQuickPick(commands).then(command => {

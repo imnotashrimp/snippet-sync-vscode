@@ -39,7 +39,6 @@ export type AllWriteResults = {
 export type WriteSuccessResult = {
   status: 'write_success',
   url: string,
-  content: string
 };
 
 export type WriteFailResult = {

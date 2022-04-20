@@ -43,13 +43,5 @@ export function showSnippetFileWriteNotifications(httpFetchResults: AllHttpResul
     });
   }
 
-  if (allSuccesses.length > 0) {
-    const plural = allSuccesses.length === 1;
-    vscode.window.showInformationMessage(
-      `${allSuccesses.length} snippet ${plural ? 'file' : 'files'} updated:
-      ${allSuccesses.map(success => success.url).join(', ')}`
-    );
-  }
-
   console.log('snippet-sync update results:', {allSuccesses, allFails});
 }

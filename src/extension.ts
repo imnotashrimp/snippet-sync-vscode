@@ -10,10 +10,10 @@ const path = require('path');
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+export function activate({subscriptions, globalStorageUri}: vscode.ExtensionContext) {
   console.log('shalom world, "snippet-sync-vscode" is now active');
 
-  const snippetsDir: string = path.resolve(context.globalStorageUri.path, '../..', 'snippets');
+  const snippetsDir: string = path.resolve(globalStorageUri.path, '../..', 'snippets');
 
   autoSyncSnippets();
 
@@ -59,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
   });
 
-  context.subscriptions.push(syncSnippetFiles, signInToGitHub);
+  subscriptions.push(syncSnippetFiles, signInToGitHub, statusBarItem);
 }
 
 // this method is called when your extension is deactivated

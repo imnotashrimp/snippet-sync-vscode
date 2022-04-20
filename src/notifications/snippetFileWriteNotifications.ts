@@ -15,16 +15,14 @@ export function showSnippetFileWriteNotifications(httpFetchResults: AllHttpResul
   // Pop success & failure messages, and log full objects
   if (allFails.length > 0) {
     const fileOrFiles = allFails.length === 1 ? 'file' : 'files';
-    const plural = allFails.length === 1;
+    const singular = allFails.length === 1;
 
     vscode.window.showWarningMessage(
-      `${allFails.length} snippet ${fileOrFiles} couldn't be updated
-      because ${plural ? 'it' : 'they'} couldn't be accessed.
-      If the ${fileOrFiles} ${plural ? 'is' : 'are'} private, you may need to sign in to GitHub.
+      `${singular ? 'A' : allFails.length} snippet ${fileOrFiles} couldn't be accessed.
+      If the ${fileOrFiles} ${singular ? 'is' : 'are'} private, sign in to GitHub.
       Check that the ${fileOrFiles} can be accessed
-      and that ${plural ? 'it contains' : 'they contain'} valid JSON.
-      To stop seeing this message,
-      remove the ${fileOrFiles} from the Snippet Sync config:
+      and that ${singular ? "it's" : "they're"} valid JSON. \r\r
+      Issues:
       ${allFails.map(fail => fail.url).join(', ')}`,
       {
         title: 'Sign in',
@@ -43,14 +41,6 @@ export function showSnippetFileWriteNotifications(httpFetchResults: AllHttpResul
           break;
       }
     });
-  }
-
-  if (allSuccesses.length > 0) {
-    const plural = allSuccesses.length === 1;
-    vscode.window.showInformationMessage(
-      `${allSuccesses.length} snippet ${plural ? 'file' : 'files'} updated:
-      ${allSuccesses.map(success => success.url).join(', ')}`
-    );
   }
 
   console.log('snippet-sync update results:', {allSuccesses, allFails});

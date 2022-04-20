@@ -23,7 +23,8 @@
 	"activationEvents": [
 		"onStartupFinished",
 		"onCommand:snippet-sync-vscode.syncSnippetFiles",
-		"onCommand:snippet-sync-vscode.signInToGitHub"
+		"onCommand:snippet-sync-vscode.signInToGitHub",
+		"onCommand:snippet-sync-vscode.showCommandsMenu"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -54,11 +55,13 @@
 		"commands": [
 			{
 				"command": "snippet-sync-vscode.syncSnippetFiles",
-				"title": "Snippet Sync: Sync snippet files"
+				"category": "Snippet Sync",
+				"title": "Sync snippet files"
 			},
 			{
 				"command": "snippet-sync-vscode.signInToGitHub",
-				"title": "Snippet Sync: Sign In to GitHub"
+				"category": "Snippet Sync",
+				"title": "Sign In to GitHub"
 			}
 		]
 	},

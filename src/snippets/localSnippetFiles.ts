@@ -32,7 +32,7 @@ export function writeSnippetFiles(snippetsDir: string, snippetsToWrite: HttpSucc
 
     try {
       fs.writeFileSync(snippetFilePath, file.content);
-      writeResults.successes.push({ status: 'write_success', url: file.url, content: file.content });
+      writeResults.successes.push({ status: 'write_success', url: file.url });
       console.debug(`Successfully wrote snippet file to ${snippetFilePath}`);
     } catch (error) {
       writeResults.fails.push({ status: 'write_fail', url: file.url, error });

@@ -30,6 +30,8 @@ This extension contributes these settings:
 - `snippetSync.snippetFiles`: List of github-hosted snippet files.
   Must be the full path to the GitHub file view
   (**not** the raw content).
+- `snippetSync.autoSyncSnippetFiles`:
+  Whether to automatically sync snippet files every 10 minutes.
 
 ## Known Issues
 
@@ -48,6 +50,12 @@ This extension contributes these settings:
   ([#17](https://github.com/imnotashrimp/snippet-sync-vscode/pull/17))
 - Add **alt + shift + s** keyboard shortcut for **Insert Snippet".
   ([#19](https://github.com/imnotashrimp/snippet-sync-vscode/pull/19))
+- Add status bar item to show sync status.
+  ([#20](https://github.com/imnotashrimp/snippet-sync-vscode/pull/20))
+- Click status bar to show available commands.
+  ([#20](https://github.com/imnotashrimp/snippet-sync-vscode/pull/20))
+- Suppress success notifications
+  ([#20](https://github.com/imnotashrimp/snippet-sync-vscode/pull/20))
 
 ### 1.0.1
 

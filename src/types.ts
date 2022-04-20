@@ -39,7 +39,6 @@ export type AllWriteResults = {
 export type WriteSuccessResult = {
   status: 'write_success',
   url: string,
-  content: string
 };
 
 export type WriteFailResult = {
@@ -54,4 +53,11 @@ export type ParsedGitHubFileUri = {
   repo: string,
   ref: string,
   path: string
+};
+
+export enum SnippetSyncStatus {
+  ok = 'ok',
+  working = 'working',
+  error = 'error',
+  noFiles = 'noFiles'
 };

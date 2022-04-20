@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 import {retrieveSnippets} from './snippets/remoteSnippetFiles';
 import { deleteLocalSnippetFiles, writeSnippetFiles } from './snippets/localSnippetFiles';
-import { WriteSuccessResult, HttpFailResult, HttpErrorResult, WriteFailResult } from './types';
+import { SnippetSyncStatus } from './types';
+import { changeStatus } from './statuses/statuses';
 import { getCurrentGitHubSessionToken } from './auth/sessionToken';
 import { showSnippetFileWriteNotifications } from './notifications/snippetFileWriteNotifications';
 import config from './config';
@@ -24,7 +25,7 @@ export function activate({subscriptions, globalStorageUri}: vscode.ExtensionCont
 
   let syncSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.syncSnippetFiles', async () => {
     console.log('"snippet-sync-vscode.syncSnippetFiles" command called');
-    statusBarItem = snippetSyncWorking(statusBarItem);
+    statusBarItem = changeStatus(statusBarItem, SnippetSyncStatus.working);
     const snippetFilesList: string[] = vscode.workspace.getConfiguration('snippetSync').get<string[]>('snippetFiles') || [];
     deleteLocalSnippetFiles(snippetsDir);
 
@@ -32,16 +33,16 @@ export function activate({subscriptions, globalStorageUri}: vscode.ExtensionCont
 
     if (snippetFilesList.length === 0) {
       vscode.window.showWarningMessage('No snippet files configured. Add snippet files in the settings in "Snippet Sync: Snippet Files".');
-      statusBarItem = snippetSyncNoFiles(statusBarItem);
+      statusBarItem = changeStatus(statusBarItem, SnippetSyncStatus.noFiles);
       return;
     }
     const httpFetchResults = await retrieveSnippets(snippetsDir, snippetFilesList, authToken);
     const writeResults = writeSnippetFiles(snippetsDir, httpFetchResults.successes);
     showSnippetFileWriteNotifications(httpFetchResults, writeResults);
     if (httpFetchResults.fails.length > 0) {
-      statusBarItem = snippetSyncError(statusBarItem);
+      statusBarItem = changeStatus(statusBarItem, SnippetSyncStatus.error);
     } else {
-      statusBarItem = snippetSyncOk(statusBarItem);
+      statusBarItem = changeStatus(statusBarItem, SnippetSyncStatus.ok);
     }
   });
 
@@ -84,28 +85,4 @@ export function autoSyncSnippets() {
   }
 
   setTimeout(autoSyncSnippets, config.autoSyncTimeInterval);
-}
-
-export function snippetSyncWorking(statusBarItem: vscode.StatusBarItem): vscode.StatusBarItem {
-  statusBarItem.text = '$(sync) Snippets';
-  statusBarItem.tooltip = 'Snippet Sync: Syncing...';
-  return statusBarItem;
-}
-
-export function snippetSyncOk(statusBarItem: vscode.StatusBarItem): vscode.StatusBarItem {
-  statusBarItem.text = '$(check) Snippets';
-  statusBarItem.tooltip = 'Snippet Sync: Synced';
-  return statusBarItem;
-}
-
-export function snippetSyncError(statusBarItem: vscode.StatusBarItem): vscode.StatusBarItem {
-  statusBarItem.text = '$(alert) Snippets';
-  statusBarItem.tooltip = "Snippet Sync: Problem syncing files";
-  return statusBarItem;
-}
-
-export function snippetSyncNoFiles(statusBarItem: vscode.StatusBarItem): vscode.StatusBarItem {
-  statusBarItem.text = '$(sync-ignored) Snippets';
-  statusBarItem.tooltip = 'Snippet Sync: No files configured';
-  return statusBarItem;
 }

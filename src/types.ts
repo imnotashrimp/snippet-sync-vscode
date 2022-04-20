@@ -54,3 +54,10 @@ export type ParsedGitHubFileUri = {
   ref: string,
   path: string
 };
+
+export enum SnippetSyncStatus {
+  ok = 'ok',
+  working = 'working',
+  error = 'error',
+  noFiles = 'noFiles'
+};

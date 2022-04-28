@@ -22,7 +22,9 @@ export function activate({subscriptions, globalStorageUri}: vscode.ExtensionCont
   statusBarItem.command = 'snippet-sync-vscode.showCommandsMenu';
   statusBarItem.show();
 
-  autoSyncSnippets();
+  if (vscode.workspace.getConfiguration('snippetSync').get<boolean>('autoSyncSnippetFiles') === true) {
+    setInterval(autoSyncSnippets, config.autoSyncTimeInterval);
+  }
 
   let syncSnippetFiles = vscode.commands.registerCommand('snippet-sync-vscode.syncSnippetFiles', async () => {
     console.log('"snippet-sync-vscode.syncSnippetFiles" command called');
@@ -103,10 +105,6 @@ export function activate({subscriptions, globalStorageUri}: vscode.ExtensionCont
 export function deactivate() {}
 
 export function autoSyncSnippets() {
-  if (vscode.workspace.getConfiguration('snippetSync').get<boolean>('autoSyncSnippetFiles') === true) {
-    console.log(`Auto syncing snippets. Next sync in ${config.autoSyncTimeInterval / 1000 / 60} minutes.`);
-    vscode.commands.executeCommand('snippet-sync-vscode.syncSnippetFiles');
-  }
-
-  setTimeout(autoSyncSnippets, config.autoSyncTimeInterval);
+  console.log(`Auto syncing snippets. Next sync in ${config.autoSyncTimeInterval / 1000 / 60} minutes.`);
+  vscode.commands.executeCommand('snippet-sync-vscode.syncSnippetFiles');
 }
